@@ -1,0 +1,346 @@
+{
+  "gstin": "24AAAAA0000A1Z5",
+  "rtnprd": "092026",
+  "version": "3.1.1",
+  "gendt": "14-09-2026",
+  "docdata": {
+    "b2b": [
+      {
+        "ctin": "24AABCS1234F1Z5",
+        "trdnm": "Sharma Traders",
+        "inv": [
+          {
+            "inum": "GST/2026/0145",
+            "dt": "12-08-2026",
+            "val": 141600.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 120000.0,
+                  "igst": 0.0,
+                  "cgst": 10800.0,
+                  "sgst": 10800.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          },
+          {
+            "inum": "GST/2026/0188",
+            "dt": "27-08-2026",
+            "val": 56640.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 48000.0,
+                  "igst": 0.0,
+                  "cgst": 4320.0,
+                  "sgst": 4320.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          },
+          {
+            "inum": "CN/2026/007",
+            "dt": "29-08-2026",
+            "val": 17700.0,
+            "pos": "24",
+            "typ": "C",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 15000.0,
+                  "igst": 0.0,
+                  "cgst": 1350.0,
+                  "sgst": 1350.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ctin": "24AACCK5678G1Z1",
+        "trdnm": "Krishna Steel Pvt Ltd",
+        "inv": [
+          {
+            "inum": "KS/26/1102",
+            "dt": "05-08-2026",
+            "val": 306800.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 260000.0,
+                  "igst": 0.0,
+                  "cgst": 23400.0,
+                  "sgst": 23400.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          },
+          {
+            "inum": "KS/26/1150",
+            "dt": "22-08-2026",
+            "val": 112100.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "N",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 95000.0,
+                  "igst": 0.0,
+                  "cgst": 8550.0,
+                  "sgst": 8550.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ctin": "24AAECM9012H1Z9",
+        "trdnm": "Mehta Textiles",
+        "inv": [
+          {
+            "inum": "MT-4410",
+            "dt": "08-08-2026",
+            "val": 183750.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 5,
+                  "txval": 175000.0,
+                  "igst": 0.0,
+                  "cgst": 4375.0,
+                  "sgst": 4375.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          },
+          {
+            "inum": "MT-4477",
+            "dt": "19-08-2026",
+            "val": 65100.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 5,
+                  "txval": 62000.0,
+                  "igst": 0.0,
+                  "cgst": 1550.0,
+                  "sgst": 1550.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ctin": "24AAFCT2345J1Z3",
+        "trdnm": "Vora Chemicals LLP",
+        "inv": [
+          {
+            "inum": "GST/2026/0112",
+            "dt": "14-08-2026",
+            "val": 99120.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 84000.0,
+                  "igst": 0.0,
+                  "cgst": 7560.0,
+                  "sgst": 7560.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          },
+          {
+            "inum": "GST/2026/0119",
+            "dt": "21-08-2026",
+            "val": 43070.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 36500.0,
+                  "igst": 0.0,
+                  "cgst": 3285.0,
+                  "sgst": 3285.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ctin": "24AAGHP3456K1Z7",
+        "trdnm": "Patel Hardware",
+        "inv": [
+          {
+            "inum": "PH-2026-0071",
+            "dt": "11-08-2026",
+            "val": 50150.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 42500.0,
+                  "igst": 0.0,
+                  "cgst": 3825.0,
+                  "sgst": 3825.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ctin": "24AAIPD4567L1Z2",
+        "trdnm": "Desai Packaging",
+        "inv": [
+          {
+            "inum": "DP/3311",
+            "dt": "16-08-2026",
+            "val": 103840.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 88000.0,
+                  "igst": 0.0,
+                  "cgst": 7920.0,
+                  "sgst": 7920.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ctin": "24AAJPN5678M1Z8",
+        "trdnm": "Nair Electronics",
+        "inv": [
+          {
+            "inum": "NE/2026/0210",
+            "dt": "",
+            "val": 0.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 0.0,
+                  "igst": 0.0,
+                  "cgst": 0.0,
+                  "sgst": 0.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          },
+          {
+            "inum": "NE/2026/0224",
+            "dt": "",
+            "val": 0.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 0.0,
+                  "igst": 0.0,
+                  "cgst": 0.0,
+                  "sgst": 0.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          },
+          {
+            "inum": "NE/2026/0231",
+            "dt": "",
+            "val": 0.0,
+            "pos": "24",
+            "typ": "R",
+            "itcavl": "Y",
+            "items": [
+              {
+                "num": 1,
+                "itm_det": {
+                  "rt": 18,
+                  "txval": 0.0,
+                  "igst": 0.0,
+                  "cgst": 0.0,
+                  "sgst": 0.0,
+                  "cess": 0.0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chirag120670598-dotcom.github.io/concord/sitemap.xml

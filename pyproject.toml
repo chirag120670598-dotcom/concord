@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "concord"
+version = "1.0.0"
+description = "Reconcile GSTR-2B against a purchase register, offline, on your own laptop."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Chirag" }]
+keywords = ["gst", "gstr-2b", "reconciliation", "itc", "india", "accounting"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Office/Business :: Financial :: Accounting",
+]
+# No dependencies, on purpose. Nothing to install, nothing to phone home, and
+# nothing that breaks when a client's laptop has no internet.
+dependencies = []
+
+[project.scripts]
+concord = "concord.cli:main"
+
+[project.urls]
+Homepage = "https://chirag120670598-dotcom.github.io/concord/"
+Source = "https://github.com/chirag120670598-dotcom/concord"
+
+[tool.setuptools]
+packages = ["concord"]

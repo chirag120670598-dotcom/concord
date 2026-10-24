@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concord — GSTR-2B reconciliation that never leaves your laptop</title>
+<meta name="description" content="Free, offline tool for CA firms in India. Match GSTR-2B against the purchase register on your own laptop. Nothing is uploaded. No login, no subscription.">
+<meta name="theme-color" content="#fdfcf8">
+<meta property="og:title" content="Concord — GSTR-2B reconciliation that never leaves your laptop">
+<meta property="og:description" content="Free offline tool for CA firms in India. Match GSTR-2B against the purchase register, see what credit is at risk, get one WhatsApp message per supplier.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314110f'/%3E%3Cpath d='M7 11h7l11 10M7 21h7l11-10' stroke='%23fdfcf8' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --ink:#14110f; --ink-2:#3d3733; --ink-3:#6b625c;
+    --paper:#fdfcf8; --card:#fffefa; --rule:#e6e1d6;
+    --risk:#9a3412; --gain:#14532d; --accent:#1e3a5f;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:400 17px/1.62 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+  a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+  a:hover{color:var(--ink)}
+  h1,h2,h3{line-height:1.18;letter-spacing:-.018em;margin:0}
+  h1{font-size:clamp(2rem,5.2vw,3.1rem);font-weight:640}
+  h2{font-size:clamp(1.35rem,3vw,1.7rem);font-weight:620;margin-top:0}
+  h3{font-size:1.03rem;font-weight:640}
+  p{margin:.7em 0}
+  code,pre{font-family:var(--mono)}
+  code{font-size:.89em;background:#f1ede2;padding:.12em .38em;border-radius:4px}
+  pre{margin:0;font-size:13px;line-height:1.55;overflow-x:auto}
+
+  header{border-bottom:1px solid var(--rule);position:sticky;top:0;background:rgba(253,252,248,.93);backdrop-filter:blur(8px);z-index:5}
+  .nav{display:flex;align-items:center;gap:14px;height:60px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:650;letter-spacing:-.02em;font-size:1.06rem;color:var(--ink);text-decoration:none}
+  .brand svg{display:block}
+  .nav .sp{flex:1}
+  .nav a.link{font-size:.9rem;color:var(--ink-2);text-decoration:none;font-weight:520}
+  .nav a.link:hover{color:var(--ink)}
+  @media(max-width:620px){ .nav a.link.opt{display:none} }
+
+  .hero{padding:64px 0 44px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--risk);background:#fdf0e8;border:1px solid #f2d9c9;padding:5px 11px;border-radius:999px;margin-bottom:22px}
+  .lede{font-size:clamp(1.06rem,2.3vw,1.24rem);color:var(--ink-2);max-width:40em;margin-top:20px}
+  .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:9px;font-weight:600;font-size:.95rem;text-decoration:none;border:1px solid var(--ink);background:var(--ink);color:var(--paper);transition:.15s}
+  .btn:hover{background:#2b2521;color:var(--paper)}
+  .btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+  .btn.ghost:hover{background:#f4f0e6;color:var(--ink)}
+  .free-note{font-size:.86rem;color:var(--ink-3);margin-top:16px}
+
+  section{padding:52px 0;border-top:1px solid var(--rule)}
+  section.first{border-top:none;padding-top:8px}
+
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+  @media(max-width:720px){.three{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:20px}
+  .card .k{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .card h3{margin:8px 0 6px}
+  .card p{font-size:.92rem;color:var(--ink-2);margin:0}
+  .card.risk{border-left:3px solid var(--risk)}
+  .card.gain{border-left:3px solid var(--gain)}
+  .card.call{border-left:3px solid var(--accent)}
+
+  .term{background:#191512;color:#efe9df;border-radius:12px;padding:20px 22px;margin-top:14px;border:1px solid #2c2521}
+  .term .bar{display:flex;gap:6px;margin-bottom:14px}
+  .term .bar i{width:10px;height:10px;border-radius:50%;background:#3d3630;display:block}
+  .term pre{color:#efe9df}
+  .term .c{color:#a89d8f}
+  .term .n{color:#e8a87c;font-weight:600}
+  .term .g{color:#8fc79a}
+  .cap{font-size:.83rem;color:var(--ink-3);margin-top:10px}
+
+  .find{display:grid;gap:0;margin-top:24px;border-top:1px solid var(--rule)}
+  .find > div{padding:18px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:start}
+  @media(max-width:680px){.find > div{grid-template-columns:1fr;gap:6px}}
+  .find .amt{font-family:var(--mono);font-size:1.02rem;font-weight:600;color:var(--risk)}
+  .find .amt small{display:block;font-family:inherit;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+  .find p{margin:0;font-size:.95rem;color:var(--ink-2)}
+  .find strong{color:var(--ink);font-weight:620}
+
+  ol.steps{list-style:none;counter-reset:s;padding:0;margin:24px 0 0}
+  ol.steps li{counter-increment:s;position:relative;padding:0 0 22px 46px;border-left:2px solid var(--rule);margin-left:14px}
+  ol.steps li:last-child{border-left-color:transparent;padding-bottom:0}
+  ol.steps li::before{content:counter(s);position:absolute;left:-15px;top:-2px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:.82rem;font-weight:700;display:grid;place-items:center}
+  ol.steps h3{margin-bottom:6px}
+  ol.steps p{font-size:.94rem;color:var(--ink-2);margin:.2em 0}
+  .cmd{background:#191512;color:#efe9df;border-radius:8px;padding:11px 14px;margin-top:9px;overflow-x:auto}
+  .cmd pre{color:#efe9df;font-size:12.5px}
+
+  .limits{background:#fbf7ee;border:1px solid #e8dfc9;border-radius:12px;padding:22px 24px;margin-top:18px}
+  .limits h3{margin-bottom:10px;color:#6b4a16}
+  .limits ul{margin:0;padding-left:20px}
+  .limits li{font-size:.93rem;color:#4a3d28;margin:.5em 0}
+  .limits strong{color:#3a2f1e}
+
+  .no{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+  @media(max-width:720px){.no{grid-template-columns:1fr}}
+  .no .box{border:1px solid var(--rule);border-radius:11px;padding:18px 20px;background:var(--card)}
+  .no ul{margin:.5em 0 0;padding-left:19px;font-size:.92rem;color:var(--ink-2)}
+  .no li{margin:.42em 0}
+
+  .donate{background:#14110f;color:#f0eae0;border-radius:14px;padding:34px;margin-top:8px}
+  .donate h2{color:#fffefa}
+  .donate p{color:#bdb3a7;font-size:.96rem;max-width:46em}
+  .upi{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:20px}
+  .upi code{background:#241f1b;color:#f4e9d8;border:1px solid #3a322b;padding:11px 16px;border-radius:8px;font-size:1rem;letter-spacing:.01em}
+  .upi span{font-size:.85rem;color:#8d8275}
+
+  details{border-bottom:1px solid var(--rule);padding:15px 0}
+  details:first-of-type{border-top:1px solid var(--rule);margin-top:26px}
+  summary{cursor:pointer;font-weight:600;font-size:.97rem;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-family:var(--mono);color:var(--ink-3);font-size:1.1rem}
+  details[open] summary::after{content:"–"}
+  details p{font-size:.94rem;color:var(--ink-2);margin:.7em 0 0;max-width:52em}
+
+  footer{padding:40px 0 60px;border-top:1px solid var(--rule);font-size:.88rem;color:var(--ink-3)}
+  footer .row{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+  footer a{color:var(--ink-2)}
+  .share{display:inline-flex;align-items:center;gap:7px;background:#25D366;color:#08301a;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:640;font-size:.86rem}
+  .share:hover{background:#1fbe5a;color:#08301a}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#14110f"/>
+        <path d="M7 11h7l11 10M7 21h7l11-10" stroke="#fdfcf8" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </svg>
+      Concord
+    </a>
+    <span class="sp"></span>
+    <a class="link opt" href="#how">How it works</a>
+    <a class="link opt" href="#limits">Limits</a>
+    <a class="link" href="https://github.com/chirag120670598-dotcom/concord">GitHub</a>
+  </div>
+</header>
+
+<main id="top">
+
+<div class="wrap hero">
+  <span class="eyebrow">Free · Offline · For CA firms</span>
+  <h1>Your client's purchase register never leaves your laptop.</h1>
+  <p class="lede">
+    Concord matches GSTR-2B against the month's purchase register and tells you
+    three things: what input tax credit is at risk, what you have not claimed,
+    and exactly who to call. No login, no upload, no subscription — a folder of
+    Python you run on your own machine.
+  </p>
+  <div class="cta">
+    <a class="btn" href="#install">Install in one minute</a>
+    <a class="btn ghost" href="https://github.com/chirag120670598-dotcom/concord">Read the code</a>
+  </div>
+  <p class="free-note">Apache-2.0 · no telemetry · no network code at all · works with the internet switched off</p>
+</div>
+
+<section class="first">
+  <div class="wrap">
+    <h2>Three questions, every month</h2>
+    <p style="color:var(--ink-2);max-width:44em">Reconciling 2B by hand is not hard, it is endless. Two hundred invoices, three different invoice-numbering habits, and one supplier who filed in the last week. The work that matters is not the matching — it is what the matching finds.</p>
+    <div class="three">
+      <div class="card risk">
+        <div class="k">Risk</div>
+        <h3>What can be disallowed</h3>
+        <p>Credit claimed in the books that GSTR-2B does not support. The 3B says one thing, the portal says another.</p>
+      </div>
+      <div class="card gain">
+        <div class="k">Missed</div>
+        <h3>What you have not claimed</h3>
+        <p>Invoices sitting in 2B that never reached the books. Credit bought and paid for, then forgotten.</p>
+      </div>
+      <div class="card call">
+        <div class="k">Action</div>
+        <h3>Who to call</h3>
+        <p>One paste-ready WhatsApp message per supplier, naming the invoice and the amount, largest first.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>What a run actually looks like</h2>
+    <p style="color:var(--ink-2);max-width:44em">This is the bundled sample, printed verbatim. The sample is deliberately imperfect — a tool that matches 100% on its own demo has not been tested.</p>
+
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i></div>
+<pre><span class="c">$ python3 -m concord demo</span>
+
+Concord  ·  GSTR-2B reconciliation
+Period 09/2026  ·  GSTIN 24AAAAA0000A1Z5
+
+  GSTR-2B documents            14
+  Purchase register            13
+
+  Matched                      11   <span class="g">78.6%</span>
+      different number, same amount        3
+  Only in GSTR-2B               1
+  Only in the books             0
+  Value mismatches              1
+
+--------------------------------------------------------------------
+  ITC at risk                    <span class="n">₹19,845.72</span>
+  not in GSTR-2B                     ₹3,100   (credit not claimed)
+--------------------------------------------------------------------
+
+  Largest exposure: Krishna Steel Pvt Ltd  ₹17,100 across 1 document(s)
+
+Chase these suppliers, largest exposure first
+--------------------------------------------------------------------
+   1. Krishna Steel Pvt Ltd                    ₹17,100   1 doc
+      24AACCK5678G1Z1   credit blocked by portal
+   2. Desai Packaging                        ₹2,745.72   1 doc
+      24AAIPD4567L1Z2   value differs</pre>
+    </div>
+    <p class="cap">78.6% is the honest number: eleven clean matches out of fourteen documents that needed a look. The three that did not match are the reason the tool exists.</p>
+
+    <div class="find">
+      <div>
+        <div class="amt"><small>Blocked credit</small>₹17,100</div>
+        <p><strong>Krishna Steel Pvt Ltd.</strong> The invoice is in 2B with <code>itcavl: N</code> — the portal says this credit is not available — and the books claimed it anyway. Notice that the exposure is the <em>whole</em> ₹17,100, not a difference. This is the finding that manual checking almost always misses, because the invoice number matches perfectly and nothing looks wrong.</p>
+      </div>
+      <div>
+        <div class="amt"><small>Value differs</small>₹2,745.72</div>
+        <p><strong>Desai Packaging.</strong> Same invoice on both sides, different money. 2B reports ₹15,840 of tax, the books show ₹18,585.72. Might be a rate mistake, might be a supply the supplier revised — either way it needs a call before the return goes in.</p>
+      </div>
+      <div>
+        <div class="amt"><small>Not claimed</small>₹3,100</div>
+        <p><strong>Mehta Textiles.</strong> In 2B, absent from the books. Credit you have paid for and are not taking. This one costs nothing but the time to notice it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <h2>Install</h2>
+    <p style="color:var(--ink-2);max-width:44em">Python 3.9 or newer is the only requirement. There are no packages to install — no openpyxl, no pandas, nothing that can break on a client's machine.</p>
+
+    <ol class="steps">
+      <li>
+        <h3>Get the code</h3>
+        <p>Clone it, or download the ZIP from GitHub and unzip it anywhere.</p>
+        <div class="cmd"><pre>git clone https://github.com/chirag120670598-dotcom/concord.git
+cd concord</pre></div>
+      </li>
+      <li>
+        <h3>Download GSTR-2B JSON from the portal</h3>
+        <p>Services → Returns → Returns Dashboard → pick FY and period → GSTR-2B → <em>Generate JSON File to Download</em>. Keep it in Downloads; no API keys, no portal login inside the tool.</p>
+      </li>
+      <li>
+        <h3>Run it against the register</h3>
+        <div class="cmd"><pre>python3 -m concord reconcile \
+    --2b    ~/Downloads/gstr2b_092026.json \
+    --books ~/client/purchase-register.xlsx</pre></div>
+        <p>Add <code>--csv recon.csv</code> for a row-by-row sheet to send the client, or <code>--json</code> to feed another script.</p>
+      </li>
+      <li>
+        <h3>Send the supplier messages</h3>
+        <div class="cmd"><pre>python3 -m concord chase --2b … --books … --out messages/</pre></div>
+        <p>One <code>.txt</code> per supplier, worded so their accountant can act without phoning you back.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Why it does not simply guess</h2>
+    <p style="color:var(--ink-2);max-width:44em">Matching by invoice number alone is how bad reconciliation tools produce confident nonsense. A supplier's 145th invoice is not a unique identifier — every supplier has one. Concord runs five passes, cheapest first, and puts three rules above all of them.</p>
+    <div class="three">
+      <div class="card">
+        <div class="k">Rule 1</div>
+        <h3>A number alone is not a match</h3>
+        <p><code>GST/2026/0145</code>, <code>INV-145</code> and <code>145</code> are the same document <em>only if the amount agrees too</em>.</p>
+      </div>
+      <div class="card">
+        <div class="k">Rule 2</div>
+        <h3>A different GSTIN is a different supplier</h3>
+        <p>No fuzzy GSTINs, no "probably the same party". Wrong pairings create credit that does not exist.</p>
+      </div>
+      <div class="card">
+        <div class="k">Rule 3</div>
+        <h3>Credit notes stay on their own side</h3>
+        <p>A credit note can never be matched against an invoice. Both the portal convention and the register convention are understood.</p>
+      </div>
+    </div>
+    <p style="color:var(--ink-2);max-width:44em;margin-top:26px">Your judgement is not thrown away either. When you confirm a pair the tool had to think about, <code>--save-memory</code> remembers it, so the same supplier costs nothing next month. Exact matches are never stored — they need no memory.</p>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap">
+    <h2>What it will not do</h2>
+    <div class="limits">
+      <h3>Read this before you trust a number</h3>
+      <ul>
+        <li><strong>It does not match 100%, and never will.</strong> On clean files expect roughly <strong>85–92%</strong>, and lower on messy ones. Anything above that on a first pass is usually a tool pairing documents it should have left apart.</li>
+        <li><strong>It saves time; it does not recover money.</strong> The at-risk figure tells you where to look. Getting the supplier to file their GSTR-1 is what actually recovers the credit.</li>
+        <li><strong>The bundled sample is synthetic.</strong> It exercises every code path but says nothing about your Tally export — real files are still needed to call this validated.</li>
+        <li><strong>Only the first sheet of an <code>.xlsx</code> is read.</strong> Merged cells, formulas and pivot tables are not parsed. Flatten the register to one sheet first. Old <code>.xls</code> files are not supported — save as <code>.xlsx</code> or <code>.csv</code>.</li>
+        <li><strong>GSTR-2B against the books is the entire scope.</strong> No GSTR-1, no GSTR-9, no e-invoicing, no TDS, no filing. Nothing here talks to the GST portal; you still file the return yourself.</li>
+        <li><strong>It is not tax advice.</strong> A human decides every treatment. The tool's only job is to put the right document in front of that human.</li>
+        <li><strong>Tested on Python 3.13, Linux.</strong> Standard library only, so it should run anywhere Python does — but this repository has no Windows CI badge, and claiming otherwise would be a lie.</li>
+      </ul>
+    </div>
+
+    <div class="no">
+      <div class="box">
+        <h3>Good fit if you are</h3>
+        <ul>
+          <li>A practice with 5 to 500 GST clients</li>
+          <li>Already keeping a purchase register in Excel or Tally</li>
+          <li>Uncomfortable uploading client ledgers to a website</li>
+          <li>Spending the last week of the month chasing suppliers</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Not for you if</h3>
+        <ul>
+          <li>You want a full practice-management suite — ICAI's free PMS exists</li>
+          <li>You need the return filed from inside the tool</li>
+          <li>You want the vendor to hold your data</li>
+          <li>Your register lives across twelve sheets and five workbooks</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Questions a CA actually asks</h2>
+
+    <details>
+      <summary>Does this upload my client's data anywhere?</summary>
+      <p>No. There is no network code in the package at all — no HTTP client, no socket, no analytics. You can disconnect the laptop from the internet and the run is byte-identical. For a professional, this is an ethics requirement before it is a feature: client ledgers are confidential, and a cloud tool makes that confidentiality a contract term instead of a fact.</p>
+    </details>
+
+    <details>
+      <summary>What if my register has different column names?</summary>
+      <p>The reader scores column headers instead of requiring exact names, so <code>Invoice No</code>, <code>Bill No</code>, <code>Inv. No.</code> and <code>Voucher No</code> all resolve. Title rows above the header — the "Purchase Register 2026-27" line that Tally loves — are skipped. If a required column truly is missing, the error lists the headers it did see, so you know what to rename.</p>
+    </details>
+
+    <details>
+      <summary>What happens to the documents it cannot match?</summary>
+      <p>They go into one of four buckets and none are dropped: only in 2B (unclaimed), only in the books (at risk), value mismatch (both sides present, money differs), credit blocked by the portal. Nothing is silently discarded, and a document that pairs on number but disagrees on money is reported rather than matched.</p>
+    </details>
+
+    <details>
+      <summary>Is it really free? What is the catch?</summary>
+      <p>Free, with no catch and no paid tier being held back. No licence key, no trial timer, no account, no feature that unlocks if you pay. If it saved you a day, there is a UPI below and you can send something entirely voluntarily. If it did not help, send nothing.</p>
+    </details>
+
+    <details>
+      <summary>Do I need to know Python?</summary>
+      <p>You need to be able to open a terminal and paste three lines. That is the whole skill requirement. If you can download a file and type a command, you can run this.</p>
+    </details>
+
+    <details>
+      <summary>Can I modify it for my firm?</summary>
+      <p>Yes. Apache-2.0 — use it commercially, change it, ship it inside your own practice. If you improve the matching, the correction is welcome upstream, because a reconciliation that fails on your file is probably failing on someone else's too.</p>
+    </details>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="donate">
+      <h2>Free, and it stays free</h2>
+      <p>This exists because month-end is miserable for small practices and the tool that fixes most of it is not complicated. There is no paid version. If a run saved you an evening, and you feel like it, the UPI is below — entirely optional.</p>
+      <div class="upi">
+        <code>chirag120670598-1@oksbi</code>
+        <span>UPI · no amount suggested, no counter, nothing gated</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <strong style="color:var(--ink-2)">Concord</strong>
+      <a href="https://github.com/chirag120670598-dotcom/concord">GitHub</a>
+      <a href="https://github.com/chirag120670598-dotcom/concord/blob/main/README.md">README</a>
+      <a href="https://github.com/chirag120670598-dotcom/concord/blob/main/LICENSE">Apache-2.0</a>
+      <span class="sp" style="flex:1"></span>
+      <a class="share" href="https://wa.me/?text=Concord%20%E2%80%94%20free%2C%20offline%20GSTR-2B%20vs%20purchase%20register%20reconciliation%20for%20CA%20firms.%20Runs%20on%20your%20own%20laptop%2C%20nothing%20uploaded.%20https%3A%2F%2Fchirag120670598-dotcom.github.io%2Fconcord%2F">Share on WhatsApp</a>
+    </div>
+    <p style="margin-top:16px;max-width:48em">Built for small CA firms in India. Not affiliated with ICAI, GSTN or any government body. Verify every figure against the portal before filing.</p>
+  </div>
+</footer>
+
+</body>
+</html>
