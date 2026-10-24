@@ -94,8 +94,11 @@ else:
         return out
 
     shown_lines = clean(shown)
+    # The tool prints UTF-8 rupees; a Windows runner would otherwise try to
+    # decode those bytes as cp1252 and fail before comparing anything.
     real = subprocess.run([sys.executable, "-m", "concord", "demo"], cwd=ROOT,
-                          capture_output=True, text=True).stdout
+                          capture_output=True, encoding="utf-8",
+                          errors="replace").stdout
     real_lines = clean(real)
     if shown_lines[:12] != real_lines[:12]:
         fails.append(f"page shows {len(shown_lines)} lines, tool prints {len(real_lines)}")
