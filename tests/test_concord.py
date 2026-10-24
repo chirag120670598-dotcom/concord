@@ -599,6 +599,18 @@ class TestCli(unittest.TestCase):
         self.assertIn("amounts do not match", body)
         self.assertNotIn("could not find", body)
 
+    def test_cp1252_console_does_not_crash_on_the_rupee_sign(self):
+        """cmd.exe cannot encode U+20B9. A Windows user piping the report to a
+        file is the most ordinary thing in the world; it must not raise."""
+        import os
+        import subprocess
+
+        env = dict(os.environ, PYTHONIOENCODING="cp1252")
+        proc = subprocess.run([sys.executable, "-m", "concord", "demo"],
+                              cwd=ROOT, capture_output=True, env=env)
+        self.assertEqual(proc.returncode, 0, proc.stderr.decode("utf-8", "replace")[-400:])
+        self.assertIn("\u20b9".encode("utf-8"), proc.stdout)
+
     def test_missing_file_fails_cleanly(self):
         code, _, err = self.run_cli(
             "reconcile", "--2b", "/nope/none.json", "--books", "/nope/none.csv")
