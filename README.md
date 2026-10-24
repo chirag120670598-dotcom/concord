@@ -150,7 +150,8 @@ Read this before trusting a number.
 - **Not a filing tool.** Nothing here talks to the GST portal. You still file the return; this tells you what to fix before you do.
 - **Not tax advice.** A human decides every treatment. The tool's job is to put the right document in front of that human.
 - **It does not know about amendments (`b2ba`) beyond reading them as documents**, and does not reconcile ISD credit against the books beyond listing it.
-- **Tested on Python 3.13, Linux.** The code is standard library only and should run anywhere Python does, but Windows is not something this repo has a CI badge for. Corrections welcome.
+- **Tested on Ubuntu, Windows and macOS**, on Python 3.9, 3.12 and 3.13, every push. Windows is the case that matters and it found a real bug: `cmd.exe` cannot encode `₹`, so the report died partway when piped to a file. Fixed, and pinned by a test.
+- **One month of one client, not a filing season.** The engine has not been through a year-end or a department notice. Judgement calls from your first few months will be worth more than any claim on this page.
 
 ---
 

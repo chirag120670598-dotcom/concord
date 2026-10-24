@@ -311,7 +311,8 @@ cd concord</pre></div>
         <li><strong>Only the first sheet of an <code>.xlsx</code> is read.</strong> Merged cells, formulas and pivot tables are not parsed. Flatten the register to one sheet first. Old <code>.xls</code> files are not supported — save as <code>.xlsx</code> or <code>.csv</code>.</li>
         <li><strong>GSTR-2B against the books is the entire scope.</strong> No GSTR-1, no GSTR-9, no e-invoicing, no TDS, no filing. Nothing here talks to the GST portal; you still file the return yourself.</li>
         <li><strong>It is not tax advice.</strong> A human decides every treatment. The tool's only job is to put the right document in front of that human.</li>
-        <li><strong>Tested on Python 3.13, Linux.</strong> Standard library only, so it should run anywhere Python does — but this repository has no Windows CI badge, and claiming otherwise would be a lie.</li>
+        <li><strong>Tested on Ubuntu, Windows and macOS</strong> on Python 3.9, 3.12 and 3.13, on every push. Windows found a real bug on the first run: <code>cmd.exe</code> cannot encode <code>₹</code>, so the report died partway when piped to a file. Fixed, and pinned by a test.</li>
+        <li><strong>This has not been through a filing season.</strong> The engine is young. Your judgement calls from the first few months will be worth more than anything claimed on this page.</li>
       </ul>
     </div>
 
